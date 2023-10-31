@@ -11,7 +11,7 @@ const NewsPage = ({ item, style }) => {
   //   .toLocaleDateString(undefined, {year:'numeric',month:'long',day:'numeric'});
 const formattedDate = getRelativeTime(item.published_date)
   return (
-    <Animated.View style={style}>
+    <Animated.View style={style} onPress={() => navigation.navigate('NewsDetail')}>
     <ImageBackground
       source={{ uri: item.media }}
       alt='jin'

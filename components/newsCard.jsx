@@ -7,7 +7,11 @@ export default function NewsCard({data}) {
     const formattedDate = getRelativeTime(data.published_date)
 
   return (
-    <Card containerStyle={styles.container} wrapperStyle={styles.containerWrap}>
+    <Card 
+        containerStyle={styles.container} 
+        wrapperStyle={styles.containerWrap}
+        onPress = {() => navigation.navigate('NewsDetail')}
+    >
         <View style={{flex:1}}>
             <Text style={styles.header}>{data.title}</Text>
 
