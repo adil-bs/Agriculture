@@ -1,24 +1,49 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { Card } from '@rneui/themed'
-import { Image } from 'react-native'
+import { Card, Icon } from '@rneui/themed'
+import { getRelativeTime } from '../utility'
 
 export default function NewsCard({data}) {
+    const formattedDate = getRelativeTime(data.published_date)
+
   return (
-    <Card containerStyle={styles.container} wrapperStyle={styles.container}>
-        <View style={styles.container}>
-            <Card.Title>{data.head}</Card.Title>
-            <Card.Image source={{uri:data.uri}} style={styles.img}/>
+    <Card containerStyle={styles.container} wrapperStyle={styles.containerWrap}>
+        <View style={{flex:1}}>
+            <Text style={styles.header}>{data.title}</Text>
+
+            <View style={styles.footerContainer}>
+                <Text style={styles.footer}>{data.rights}  </Text>
+                <Icon name="ellipse" type={"ionicon"} size={6} color={"gray"}  />
+                <Text style={styles.footer}>  {formattedDate}</Text>
+            </View>
         </View>
+        <Card.Image source={{uri:data.media}} style={styles.img}/>
     </Card>
   )
 }
 
 const styles = StyleSheet.create({
     container:{
-        display:"flex",
         borderRadius:20,
-        alignContent:"space-between"
+    },
+    containerWrap:{
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"space-between",
+    },
+    header:{
+        flex:1,
+        textAlignVertical:"center",
+        fontWeight:"bold",
+        fontSize:20,
+    },
+    footerContainer:{
+        flexDirection:"row",
+        alignItems:"center"
+    },
+    footer:{
+        color:"gray",
+        fontSize:10,
     },
     img:{
         width:100,
