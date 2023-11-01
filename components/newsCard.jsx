@@ -3,25 +3,26 @@ import React from 'react'
 import { Card, Icon } from '@rneui/themed'
 import { getRelativeTime } from '../utility'
 
-export default function NewsCard({data}) {
-    const formattedDate = getRelativeTime(data.published_date)
+export default function NewsCard({item,navigation}) {
+    const formattedDate = getRelativeTime(item.published_date)
 
   return (
     <Card 
         containerStyle={styles.container} 
         wrapperStyle={styles.containerWrap}
-        onPress = {() => navigation.navigate('NewsDetail')}
+        onStartShouldSetResponder = {()=>true}
+        onResponderRelease={() => navigation.navigate('NewsDetail',{id:item.id})}
     >
         <View style={{flex:1}}>
-            <Text style={styles.header}>{data.title}</Text>
+            <Text style={styles.header}>{item.title}</Text>
 
-            <View style={styles.footerContainer}>
-                <Text style={styles.footer}>{data.rights}  </Text>
+            <View style={styles.footerContainer} >
+                <Text style={styles.footer}>{item.rights}  </Text>
                 <Icon name="ellipse" type={"ionicon"} size={6} color={"gray"}  />
                 <Text style={styles.footer}>  {formattedDate}</Text>
             </View>
         </View>
-        <Card.Image source={{uri:data.media}} style={styles.img}/>
+        <Card.Image source={{uri:item.media}} style={styles.img}/>
     </Card>
   )
 }

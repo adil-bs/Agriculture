@@ -6,12 +6,14 @@ import { Icon } from '@rneui/themed'
 const margin = 15
 const windowWidth = Dimensions.get("screen").width-margin*2
 
-const NewsPage = ({ item, style }) => {
-  // const formattedDate = new Date(item.published_date)
-  //   .toLocaleDateString(undefined, {year:'numeric',month:'long',day:'numeric'});
-const formattedDate = getRelativeTime(item.published_date)
+const NewsPage = ({ item, style,navigation }) => {
+  const formattedDate = getRelativeTime(item.published_date)
   return (
-    <Animated.View style={style} onPress={() => navigation.navigate('NewsDetail')}>
+    <Animated.View 
+      style={style} 
+      onStartShouldSetResponder = {()=>true}
+      onResponderRelease={() => navigation.navigate('NewsDetail',{id:item.id})}
+    >
     <ImageBackground
       source={{ uri: item.media }}
       alt='jin'
@@ -33,7 +35,7 @@ const formattedDate = getRelativeTime(item.published_date)
     )
   }
   
-export default function TrendingNews({data}) {
+export default function TrendingNews({data,navigation}) {
   const scrollX = useRef(new Animated.Value(0)).current
 
   return (
@@ -47,7 +49,7 @@ export default function TrendingNews({data}) {
               inputRange: [windowWidth * index, windowWidth * (index + 1)],
               outputRange: [1, 0],
             });
-            return <NewsPage item={item} style={{opacity}}/>
+            return <NewsPage item={item} style={{opacity}} navigation={navigation}/>
           }}
           horizontal
           pagingEnabled
@@ -95,7 +97,6 @@ const styles = StyleSheet.create({
   newsSection:{
     flex:1,
     justifyContent:"flex-end",
-    color:"#FFFFFF",
   },
   newsText:{
     color: 'white', 

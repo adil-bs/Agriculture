@@ -1,3 +1,7 @@
+import { createContext } from "react";
+
+export const NewsContext = createContext()
+
 export function getRelativeTime(dateString) {
     const date = new Date(dateString); 
     const now = new Date(); 
