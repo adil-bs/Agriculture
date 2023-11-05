@@ -1,7 +1,8 @@
 import React,{ useRef } from 'react'
-import { Animated, Dimensions, FlatList, ImageBackground, StyleSheet, Text, View, } from 'react-native'
+import { Animated, Dimensions, FlatList, ImageBackground, StyleSheet, View, } from 'react-native'
 import { getRelativeTime } from '../utility'
-import { Icon } from '@rneui/themed'
+import {Text, Icon, useTheme, Image } from '@rneui/themed'
+import NewsFooter from './newsFooter'
 
 const margin = 15
 const windowWidth = Dimensions.get("screen").width-margin*2
@@ -9,39 +10,42 @@ const windowWidth = Dimensions.get("screen").width-margin*2
 const NewsPage = ({ item, style,navigation }) => {
   const formattedDate = getRelativeTime(item.published_date)
   return (
-    <Animated.View 
-      style={style} 
-      onStartShouldSetResponder = {()=>true}
-      onResponderRelease={() => navigation.navigate('NewsDetail',{id:item.id})}
-    >
-    <ImageBackground
+    <Animated.View  style={style} >
+    <Image
       source={{ uri: item.media }}
       alt='jin'
       style={styles.img}
+      onPress={() => navigation.navigate('NewsDetail',{id:item.id})}
     >
       <View style={styles.newsSection}>
-        <Text style={[styles.newsText,{fontSize:30}]}>{item.title}</Text>
-        <Text style={[styles.newsText,{fontSize:16}]}>{item.description}</Text>
+        <Text 
+          numberOfLines={4}
+          ellipsizeMode='tail' 
+          style={[styles.newsText,{fontSize:30}]}
+        >{item.title}</Text>
         
-        <View style={styles.footerContainer}>
-          <Text style={[styles.newsText,{fontSize:10}]}>{item.rights}  </Text>
-          <Icon name="ellipse" type={"ionicon"} size={6} color={"#F5F5F5"}  />                
-          <Text style={[styles.newsText,{fontSize:10}]}>  {formattedDate}</Text>
-        </View>
-      
+        <Text 
+          numberOfLines={4}
+          ellipsizeMode='tail' 
+          style={[styles.newsText,{fontSize:16}]}
+        >{item.description}</Text>
+        
+        <NewsFooter rights={item.rights} date={formattedDate} textStyle={styles.newsText}/>
+
       </View>
-    </ImageBackground>
+    </Image>
     </Animated.View>
     )
   }
   
 export default function TrendingNews({data,navigation}) {
+  const {theme} = useTheme()
   const scrollX = useRef(new Animated.Value(0)).current
 
   return (
     <View style={styles.container}>
 
-      <Animated.View style={styles.imgContainer} >
+      <View >
         <FlatList
           data={data}
           renderItem={({ item, index }) => {
@@ -60,7 +64,7 @@ export default function TrendingNews({data,navigation}) {
             {useNativeDriver:false}
           )}
         />
-      </Animated.View>
+      </View>
 
       <View style={styles.dotContainer}>
         {data.map((_, i) => {
@@ -70,7 +74,10 @@ export default function TrendingNews({data,navigation}) {
             extrapolate: 'clamp',
           });
           return (
-            <Animated.View key={i} style={[styles.normalDot, {width}]}/>
+            <Animated.View 
+              key={i} 
+              style={[styles.normalDot,{width,backgroundColor:theme.colors.primary,}]}
+            />
           );
         })}
       </View>
@@ -82,8 +89,6 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal:margin,
   },
-  imgContainer:{
-  },
   img: {
     flex:1,
     height:400,
@@ -91,8 +96,7 @@ const styles = StyleSheet.create({
     resizeMode:"cover", //exp
     padding:20,
     borderRadius: 10, 
-    overflow: 'hidden',   
-    color:"red"
+    overflow: 'hidden',
   },
   newsSection:{
     flex:1,
@@ -119,7 +123,6 @@ const styles = StyleSheet.create({
     height: 10,
     width: 10,
     borderRadius: 10,
-    backgroundColor:"#4DB6AC",
     marginHorizontal: 4,
   },
 })

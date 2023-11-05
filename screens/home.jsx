@@ -1,12 +1,39 @@
 import React from 'react';
-import {  ScrollView, Text, View } from "react-native";
-import CropCard from '../components/cropCard'
+import {  FlatList, View} from "react-native";
+import { Card, Text } from '@rneui/themed'
+import {CropHeader, CropList} from '../components/cropElements';
+import { StyleSheet } from 'react-native';
+
+
 
 export default function Home() {
-    return (
-      <ScrollView>
-        <CropCard/>
+  const data = [
+    {name:"rice",stage:"sowing",condition:"critical"},
+    {name:"rice",stage:"sowing",condition:"critical"},
+    {name:"rice",stage:"sowing",condition:"critical"},
+    {name:"rice",stage:"sowing",condition:"critical"},
+  ]
 
-      </ScrollView>
+    return (
+      <View>
+        <Card containerStyle={styles.cropContainer}>
+          <FlatList
+            data={data}
+            renderItem={({item})=><CropList {...item} />} 
+            ListHeaderComponent={<CropHeader/>}
+            ItemSeparatorComponent={<Card.Divider style={styles.separator}/>}
+          />
+        </Card>
+
+      </View>
     )
 }
+
+const styles = StyleSheet.create({
+  cropContainer:{
+    borderRadius:15,
+  },
+  separator:{
+    marginTop:10,
+  }
+})
