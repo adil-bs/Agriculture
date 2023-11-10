@@ -1,6 +1,6 @@
 import React,{ useContext } from 'react';
 import { FlatList, StyleSheet, View } from "react-native";
-import TrendingNews from '../components/trendingNews';
+import NewsTrending from '../components/newsTrending';
 import NewsCard from '../components/newsCard';
 import { NewsContext } from '../utility';
 
@@ -13,7 +13,7 @@ export default function News({navigation}) {
         renderItem={({item}) => <NewsCard {...{item,navigation}}/>}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={<TrendingNews data={articles} navigation={navigation}/>}
+        ListHeaderComponent={<NewsTrending data={articles} navigation={navigation}/>}
       />
     </View>
   );

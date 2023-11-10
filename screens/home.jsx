@@ -1,9 +1,9 @@
 import React from 'react';
-import {  FlatList, View} from "react-native";
+import {  FlatList, ScrollView} from "react-native";
 import { Card, Text } from '@rneui/themed'
 import {CropHeader, CropList} from '../components/cropElements';
 import { StyleSheet } from 'react-native';
-
+import Weather from '../components/weather';
 
 
 export default function Home() {
@@ -15,8 +15,8 @@ export default function Home() {
   ]
 
     return (
-      <View>
-        <Card containerStyle={styles.cropContainer}>
+      <ScrollView style={{flex:1}} showsVerticalScrollIndicator={false}>
+        <Card containerStyle={styles.container}>
           <FlatList
             data={data}
             renderItem={({item})=><CropList {...item} />} 
@@ -25,12 +25,15 @@ export default function Home() {
           />
         </Card>
 
-      </View>
+        <Card containerStyle={styles.container}>
+          <Weather/>
+        </Card>
+      </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-  cropContainer:{
+  container:{
     borderRadius:15,
   },
   separator:{

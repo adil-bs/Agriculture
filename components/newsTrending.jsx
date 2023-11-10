@@ -35,10 +35,10 @@ const NewsPage = ({ item, style,navigation }) => {
       </View>
     </Image>
     </Animated.View>
-    )
-  }
+  )
+}
   
-export default function TrendingNews({data,navigation}) {
+export default function NewsTrending({data,navigation}) {
   const {theme} = useTheme()
   const scrollX = useRef(new Animated.Value(0)).current
 

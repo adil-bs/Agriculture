@@ -1,8 +1,13 @@
 import {ThemeProvider,createTheme,Skeleton} from '@rneui/themed'
 import Navigators from './navigators'
-import { useColorScheme } from 'react-native'
+import { LogBox, useColorScheme } from 'react-native'
+import { useEffect } from 'react'
 
 const App = () => {
+  useEffect(()=>{
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  },[])
+
   const mode = useColorScheme()
   const theme = createTheme({
     lightColors:{
