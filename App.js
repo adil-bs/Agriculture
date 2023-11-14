@@ -1,4 +1,4 @@
-import {ThemeProvider,createTheme,Skeleton} from '@rneui/themed'
+import {ThemeProvider,createTheme,Skeleton,} from '@rneui/themed'
 import Navigators from './navigators'
 import { LogBox, useColorScheme } from 'react-native'
 import { useEffect } from 'react'

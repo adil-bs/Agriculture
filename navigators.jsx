@@ -8,6 +8,7 @@ import Home from './screens/home';
 import News from './screens/news';
 import NewsDetail from './screens/newsDetail';
 import ColorMode from './components/colorMode';
+import Profile from './screens/profile';
 
 function NewsStack() {
   const Stack = createStackNavigator()
@@ -576,7 +577,7 @@ export default function Navigators() {
 
       <Tab.Navigator screenOptions={ ({route}) =>({
         tabBarIcon: ({size,color}) => {
-          const iconName = {Home:'home',News:'newspaper'}
+          const iconName = {Home:'home',News:'newspaper',Profile:'person-circle'}
           return <Icon name={iconName[route.name]} size={size} type="ionicon" color={color} />;
         },
         tabBarLabelStyle:{
@@ -587,6 +588,7 @@ export default function Navigators() {
       })}>
         <Tab.Screen name='Home' component={Home}/>
         <Tab.Screen name='News' component={NewsStack} options={{headerShown:false}}/>
+        <Tab.Screen name='Profile' component={Profile}/>
       </Tab.Navigator>
 
     </NavigationContainer>
