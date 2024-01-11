@@ -1,48 +1,45 @@
 import React from 'react';
-import {  FlatList, ScrollView, SectionList} from "react-native";
-import { Card, Divider, Text } from '@rneui/themed'
-import { CropHeader, CropList} from '../components/cropElements';
-import { StyleSheet } from 'react-native';
-import Weather from '../components/weather';
+import {  View, ScrollView, Dimensions} from "react-native";
+import { CropList} from '../components/cropList';
+import { Divider, Icon, Text, makeStyles } from '@rneui/themed';
+import HomeUI from '../components/homeUI';
 
 
-export default function Home() {
-  
-  return (
-    <SectionList
-      sections={[{data:[1]}]}           //dummy
-      renderItem={()=><></>}    //dummy
-      ListHeaderComponent={<CropSection/>}
-      ListFooterComponent={<Card containerStyle={styles.container}><Weather/></Card>}
-      showsVerticalScrollIndicator={false}
-    />
-  )
-}
+const useStyles = makeStyles(theme => ({
+  more:{
+    marginVertical:30,
+    padding:30,
+  },
+  centralize:{
+    justifyContent:"center",
+    alignItems:"center",
+  },
+}))
 
-function CropSection() {
+export default function Home({navigation}) {
+  const styles = useStyles()
+
   const data = [
-    {id:1,name:"rice",stage:"sowing",condition:"critical"},
-    {id:2,name:"rice",stage:"sowing",condition:"critical"},
-    {id:3,name:"rice",stage:"sowing",condition:"critical"},
-    {id:4,name:"rice",stage:"sowing",condition:"critical"},
+    {id:1,name:"Rice",area:"148 x 147 hec",stage:"sowing",condition:"critical"},
+    {id:2,name:"Tomato",area:"148 x 147 hec",stage:"sowing",condition:"critical"},
+    {id:3,name:"Wheat",area:"148 x 147 hec",stage:"sowing",condition:"critical"},
+    {id:4,name:"Barley",area:"148 x 147 hec",stage:"sowing",condition:"critical"},
   ]
   return(
-    <Card containerStyle={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={({item})=><CropList {...item} />} 
-        ListHeaderComponent={<CropHeader/>}
-        ItemSeparatorComponent={<Card.Divider style={styles.separator}/>}
-      />
-    </Card>
+    <HomeUI heading={'Crops'} sub={'Pick the crop for more details'}>
+
+      <View>
+        {data.map((ele,i) => <CropList key={i} navigation={navigation} {...ele}/>)}
+      </View>
+
+      <View style={styles.more}>
+        <Divider width={2}/>
+        <View style={styles.centralize} >
+          <Text style={{textAlign:"center",marginTop:30,color:"gray"}} h4>Add more crops</Text>
+          <Icon name="add-circle" size={70} type={"ionicon"} color={'gray'}/>
+        </View>
+      </View>
+
+    </HomeUI>
   )
 }
-
-const styles = StyleSheet.create({
-  container:{
-    borderRadius:15,
-  },
-  separator:{
-    marginTop:10,
-  }
-})

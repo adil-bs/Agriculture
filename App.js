@@ -12,6 +12,7 @@ const App = () => {
   const theme = createTheme({
     lightColors:{
       primary:"#4DB6AC",
+      secondary:"#4BBF19",
       background:"#ECF2F1",
       text:"#000000",
       cardUI:"white",
@@ -19,6 +20,7 @@ const App = () => {
     },
     darkColors:{
       primary:"#9CCC65",
+      secondary:"#4BBF19",
       background:"black",
       text:"#FFFFFF",
       cardUI:"#011516",
@@ -29,7 +31,7 @@ const App = () => {
       Text: (props , theme) => ({
         style:{
           color : theme.colors.text,
-          fontWeight : props.bold ? "bold" : "300"
+          fontWeight : props.bold ? "bold" : "300",
         },
       }),
       Image:(props) => ({

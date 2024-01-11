@@ -9,6 +9,18 @@ import News from './screens/news';
 import NewsDetail from './screens/newsDetail';
 import ColorMode from './components/colorMode';
 import Profile from './screens/profile';
+import Weather from './screens/weather';
+import Crop from './screens/crop';
+
+function HomeStack() {
+  const Stack = createStackNavigator()
+  return(
+    <Stack.Navigator initialRouteName='Home' screenOptions={{headerShown:false}}>
+      <Stack.Screen name='HomeIndex' component={Home} />
+      <Stack.Screen name='Crop' component={Crop} />
+    </Stack.Navigator>
+  )
+}
 
 function NewsStack() {
   const Stack = createStackNavigator()
@@ -549,7 +561,7 @@ function NewsStack() {
     },
     ],
     "user_input": {}
-}
+  }
   return(
     <NewsContext.Provider value={data}>
     <Stack.Navigator 
@@ -577,7 +589,7 @@ export default function Navigators() {
 
       <Tab.Navigator screenOptions={ ({route}) =>({
         tabBarIcon: ({size,color}) => {
-          const iconName = {Home:'home',News:'newspaper',Profile:'person-circle'}
+          const iconName = {Home:'home',Weather:'cloud',News:'newspaper',Profile:'person-circle'}
           return <Icon name={iconName[route.name]} size={size} type="ionicon" color={color} />;
         },
         tabBarLabelStyle:{
@@ -586,7 +598,8 @@ export default function Navigators() {
         },
         headerRight : (props) => <ColorMode {...props} />,
       })}>
-        <Tab.Screen name='Home' component={Home}/>
+        <Tab.Screen name='Home' component={HomeStack}/>
+        <Tab.Screen name='Weather' component={Weather}/>
         <Tab.Screen name='News' component={NewsStack} options={{headerShown:false}}/>
         <Tab.Screen name='Profile' component={Profile}/>
       </Tab.Navigator>

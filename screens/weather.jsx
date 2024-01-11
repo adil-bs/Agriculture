@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { View, Image, FlatList, TouchableOpacity, LayoutAnimation, ScrollView } from 'react-native';
-import { Text,makeStyles, useThemeMode, Icon, Divider, ListItem, registerCustomIconType } from '@rneui/themed';
+import { Text,makeStyles, useThemeMode, Icon, Divider, ListItem, registerCustomIconType, Card } from '@rneui/themed';
 import { camelToCapital, weatherCode, weatherUnits } from '../utility';
-import {   weatherData } from './data';
+import {   weatherData } from '../components/data';
 import { LineChart } from 'react-native-gifted-charts';
 
 const reduceCurrentWeather = (state, action) =>{
@@ -67,8 +67,8 @@ export default function Weather ()  {
 
   return (
   weatherData && currentWeather.summary &&
-  <View  style={{overflow:"hidden"}}>
-    <Text h3 style={{marginBottom:15}}>Weather Forecast</Text>
+  <Card containerStyle={{borderRadius:10,marginBottom:12}}>
+  <ScrollView showsVerticalScrollIndicator={false}>
 
     <FlatList
         data={weatherData.timelines.daily}
@@ -89,7 +89,7 @@ export default function Weather ()  {
     <View style={styles.centralize}> 
         <Text h3 >{new Date(currentWeather.day).toLocaleDateString(undefined, {year:'numeric',month:'short',day:'numeric'})}</Text>
         <Text adjustsFontSizeToFit style={styles.fontMdBold}>{weatherData.location.name}</Text>
-        <View style={[{flexDirection:"row",marginVertical:20}]}>
+        <View style={[{flexDirection:"row",marginVertical:30}]}>
             <Image source={weatherCode[currentWeather.summary.weatherCodeMax]?.img} style={{height:110,width:110}}/>
             <View style={[{marginLeft:15}]}>
                 <Text h3 adjustsFontSizeToFit numberOfLines={1}>{weatherCode[currentWeather.summary.weatherCodeMax]?.name} </Text>
@@ -112,7 +112,6 @@ export default function Weather ()  {
         }
         keyExtractor={item => item}
         numColumns={3}
-        style={{marginVertical:15,}}
     />
 
     <ListItem.Accordion
@@ -123,6 +122,7 @@ export default function Weather ()  {
         }
         isExpanded={expanded}
         onPress={() =>setExpanded(!expanded)}
+        style={{marginTop:35,}}
     >
         <ScrollView style={{height:150}} nestedScrollEnabled showsVerticalScrollIndicator={false}>
         {Object.keys(weatherUnits).map(item => {
@@ -196,7 +196,8 @@ export default function Weather ()  {
     />
 
     {/* <Image source={require('../assets/sponsers/TomorrowBlack.png')} style={styles.sponser}/> */}
-  </View>
+  </ScrollView>
+  </Card>
   )
 }
 
