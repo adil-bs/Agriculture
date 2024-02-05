@@ -20,13 +20,13 @@ export default function Home({navigation}) {
   const styles = useStyles()
 
   const data = [
-    {id:1,name:"Rice",area:"148 x 147 hec",stage:"sowing",condition:"critical"},
-    {id:2,name:"Tomato",area:"148 x 147 hec",stage:"sowing",condition:"critical"},
-    {id:3,name:"Wheat",area:"148 x 147 hec",stage:"sowing",condition:"critical"},
-    {id:4,name:"Barley",area:"148 x 147 hec",stage:"sowing",condition:"critical"},
+    {id:1,name:"Rice",area:"148 ac",stage:"sowing",condition:"critical",img:"https://th.bing.com/th/id/OIP.bSBXls_YudJwhQ9Mp8wmKwHaFa?w=650&h=475&rs=1&pid=ImgDetMain"},
+    {id:2,name:"Tomato",area:"148 ac",stage:"sowing",condition:"critical"},
+    {id:3,name:"Wheat",area:"148 ac",stage:"sowing",condition:"critical"},
+    {id:4,name:"Barley",area:"148 ac",stage:"sowing",condition:"critical"},
   ]
   return(
-    <HomeUI heading={'Crops'} sub={'Pick the crop for more details'}>
+    <HomeUI heading={'Crops'} sub={'Pick the crop for more details'} >
 
       <View>
         {data.map((ele,i) => <CropList key={i} navigation={navigation} {...ele}/>)}

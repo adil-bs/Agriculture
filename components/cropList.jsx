@@ -4,7 +4,7 @@ import {Text, Icon, ListItem, Card, Button, Tooltip, makeStyles, Image} from '@r
 import useImagePermission from './imagePermission';
 
 export function CropList (props)  {
-    const {name,area,stage,condition,navigation} = props
+    const {name,area,stage,img,condition,navigation} = props
     const styles = useStyles()
     const {selectedImage, pickImage} = useImagePermission()
     const phaseIndicator = {preparation:"yellow",sowing:"#FFB300",irrigaton:"#F57C00",harvest:"red"}
@@ -14,7 +14,7 @@ export function CropList (props)  {
         containerStyle={{borderRadius:12}} 
         wrapperStyle={{justifyContent:"space-between",flexDirection:"row"}}
         onStartShouldSetResponder = {()=>true}
-        onResponderRelease={() => navigation.navigate('Crop',{name,area,stage})}
+        onResponderRelease={() => navigation.navigate('Crop',{name,area,stage,img})}
     >
         <View style={{flex:1}}>
             {/* <Text style={{marginBottom:10}} h3>{name}</Text> */}

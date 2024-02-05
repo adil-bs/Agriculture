@@ -1,81 +1,98 @@
-import { View, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, StyleSheet, ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import HomeUI from '../components/homeUI'
-import { Card, Text, Icon, useTheme } from '@rneui/themed'
+import { Card, Text, Icon, useTheme, ButtonGroup, Tab, TabView, makeStyles, useThemeMode } from '@rneui/themed'
+import { camelToCapital } from '../utility'
+import Timeline from '../components/timeline'
+import {CropDetail, NPK} from '../components/cropElements'
 
 export default function Crop({route}) {
-  const {name,area,stage} = route.params
-  const { theme } = useTheme()
-  const events = [
-    { title: 'Event 1', description: 'Description for Event 1', time: '10:00 AM' },
-    { title: 'Event 2', description: 'Description for Event 2Description for Event 2Description for Event 2', time: '01:00 PM' },
-    { title: 'Event 2', description: 'Description for Event 2', time: '01:00 PM' },
-    { title: 'Event 2', description: 'Description for Event 2', time: '01:00 PM' },
-    { title: 'Event 2', description: 'Description for Event 2', time: '01:00 PM' },
-    // Add more events as needed
-  ];
+  const {name,area,stage,img} = route.params
+  const styles = useStyles()
+  const [cropData, setCropData] = useState()
+  const [index, setIndex] = useState(0);
+
+  useEffect(()=>{
+    setCropData({
+      ...{name,area,stage},
+      grown:'pot',
+      npk:[20,10,5],
+      ph:'6.5',
+      phStatus:'optimal',
+      schedule:[
+        { title: 'Watering', description: 'Additional Description', time: '2024-02-05T12:30:45.678Z' },
+        { title: 'Watering', description: 'Additional Description', time: '2024-02-05T12:30:45.678Z' },
+        { title: 'Fertilizer', description: 'Additional Description', time: '2024-02-05T12:30:45.678Z' },
+        { title: 'Watering', description: 'Additional Description', time: '2024-02-05T12:30:45.678Z' },
+        { title: 'Watering', description: 'Additional Description', time: '2024-02-05T12:30:45.678Z' },
+        // Add more events as needed
+      ],
+      history:[
+        { title: 'Watering', description: 'Additional Description', time: '2024-02-02T12:30:45.678Z' },
+        { title: 'Watering', description: 'Additional Description', time: '2024-02-02T12:30:45.678Z' },
+        { title: 'Fertilizer', description: 'Additional Description', time: '2024-02-02T12:30:45.678Z' },
+        { title: 'Watering', description: 'Additional Description', time: '2024-02-02T12:30:45.678Z' },
+        { title: 'Watering', description: 'Additional Description', time: '2024-02-02T12:30:45.678Z' },
+        // Add more events as needed
+      ],
+    })
+  },[])
+  
   return (
-    <HomeUI heading={name} sub={area + ' | ' + stage}>
-      <Card containerStyle={{borderRadius:12}}>
-      {events.map((event, index) => (
-        <View key={index} style={styles.timelineItem}>
-          {index !== events.length-1 && <View style={styles.line} />}
-          <View style={[styles.circle,{borderColor:theme.colors.primary,}]}>
-            <Icon name="circle" type="font-awesome" color={theme.colors.primary} size={16} />
-          </View>
-          <View style={styles.contentContainer}>
-            <Text style={styles.title}>{event.title}</Text>
-            <Text>{event.description}</Text>
-            <Text style={styles.time}>{event.time}</Text>
-          </View>
+    cropData &&
+    <HomeUI heading={name} img={img} >
+
+      <Card containerStyle={styles.card1}>
+        <View style={styles.cropDetailContainer}>      
+        {['area','stage','grown'].map(ele => <CropDetail  key={ele} value={camelToCapital(cropData[ele])} sub={camelToCapital(ele)} /> )}
         </View>
-      ))}
+        <View style={[styles.cropDetailContainer,{marginTop:25}]}>
+          <CropDetail value={cropData.ph} sub={'pH'} />
+          <CropDetail value={camelToCapital(cropData.phStatus)} sub={'pH Status'} />
+        </View>
+
+        <NPK style={{marginTop:35}} data={cropData.npk}/>
       </Card>
+
+
+      <Card containerStyle={styles.timelineCardContainer}>
+
+        <Tab value={index} onChange={(e) => setIndex(e)} indicatorStyle={{height: 3}}>
+          <Tab.Item title={'Schedule'} />
+          <Tab.Item title={'History'} />
+        </Tab>
+    
+        <View style={{marginTop:15,height:500}}>
+          <TabView value={index} onChange={setIndex} animationType="spring">
+            <TabView.Item style={{ width: '100%',marginLeft:15}}>
+              <Timeline data={cropData.schedule}/> 
+            </TabView.Item>
+            <TabView.Item style={{ width: '100%',marginLeft:15}}>
+              <Timeline data={cropData.history}/>
+            </TabView.Item>
+          </TabView>
+        </View>
+
+      </Card>
+
     </HomeUI>
   )
 }
 
-const styles = StyleSheet.create({
-  timelineContainer: {
-    flex: 1,
-    padding: 10,
-    flexDirection: 'column',
+const useStyles = makeStyles(theme => ({
+  card1:{
+    borderRadius:12,
   },
-  timelineItem: {
-    flexDirection: 'row',
+  cropDetailContainer:{ 
+    flexDirection: 'row', 
     alignItems: 'center',
-    position: 'relative',
+    justifyContent:"space-around",
   },
-  line: {
-    height: '100%',
-    width: 2,
-    backgroundColor: 'gray',
-    position: 'absolute',
-    top:"50%",
-    left: 7,
-    zIndex: -1,
+  timelineCardContainer:{
+    borderRadius:12,
+    overflow:"hidden",
+    marginBottom:15
   },
-  circle: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    borderWidth: 2,
-    width: 16,
-    height: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
-  },
-  contentContainer: {
-    flex: 1,
-    marginLeft: 20,
-    paddingVertical: 10,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  time: {
-    color: 'gray',
-  },
-});
+}))
+
+

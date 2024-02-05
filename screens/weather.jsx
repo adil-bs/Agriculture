@@ -67,8 +67,8 @@ export default function Weather ()  {
 
   return (
   weatherData && currentWeather.summary &&
-  <Card containerStyle={{borderRadius:10,marginBottom:12}}>
   <ScrollView showsVerticalScrollIndicator={false}>
+  <Card containerStyle={{borderRadius:10,marginBottom:12}}>
 
     <FlatList
         data={weatherData.timelines.daily}
@@ -137,49 +137,53 @@ export default function Weather ()  {
         )})}
         </ScrollView>
     </ListItem.Accordion>
-    <LineChart
-        areaChart
-        data={currentWeather.hourlyGraphData}
-        color={chartTheme[mode].color}
-        dataPointsColor={chartTheme[mode].color}
-        dataPointsRadius={3}
-        noOfSections={5}
-        yAxisThickness={0}
-        yAxisTextStyle={{color: 'gray'}}
-        yAxisLabelSuffix={weatherUnits[currentWeather.stat].unit}
-        xAxisColor={chartTheme[mode].xAxisColor}
-        xAxisLabelTextStyle={{color:chartTheme[mode].xAxisText}}
-        rulesType="solid"
-        rulesColor={chartTheme[mode].rulesColor}
-        startFillColor='#00cc44'
-        startOpacity={0.4}
-        endOpacity={0.1}
-        isAnimated
-        animationDuration={2000}
-        scrollAnimation
-        pointerConfig={{
-            radius: 5,
-            pointerColor: 'gray',
-            stripOverPointer:true,
-            pointerStripHeight:160,
-            pointerStripColor: 'gray',
-            strokeDashArray:[2,2],
-            pointerStripWidth: 2,
-            pointerLabelWidth:100,
-            shiftPointerLabelX:-40,
-            activatePointersOnLongPress:true,
-            activatePointersDelay:-500,
-            pointerVanishDelay:3000,
-            pointerLabelComponent: items => (
-                <View style={styles.centralize}>
-                  <Text style={{fontSize:12,fontWeight:"bold"}}>{items[0].label}</Text>  
-                  <View style={styles.pointerContainer}>
-                    <Text style={styles.pointerText}>{items[0].value} {weatherUnits[currentWeather.stat].unit}</Text>
-                  </View>
-                </View>
-            ),
-        }}
-    />
+
+    <View style={{overflow:"hidden"}}>
+        <LineChart
+            areaChart
+            data={currentWeather.hourlyGraphData}
+            color={chartTheme[mode].color}
+            dataPointsColor={chartTheme[mode].color}
+            dataPointsRadius={3}
+            noOfSections={5}
+            yAxisThickness={0}
+            yAxisTextStyle={{color: 'gray'}}
+            yAxisLabelSuffix={weatherUnits[currentWeather.stat].unit}
+            xAxisColor={chartTheme[mode].xAxisColor}
+            xAxisLabelTextStyle={{color:chartTheme[mode].xAxisText}}
+            rulesType="solid"
+            rulesColor={chartTheme[mode].rulesColor}
+            startFillColor='#00cc44'
+            startOpacity={0.4}
+            endOpacity={0.1}
+            isAnimated
+            animationDuration={2000}
+            scrollAnimation
+            pointerConfig={{
+                radius: 5,
+                pointerColor: 'gray',
+                stripOverPointer:true,
+                pointerStripHeight:160,
+                pointerStripColor: 'gray',
+                strokeDashArray:[2,2],
+                pointerStripWidth: 2,
+                pointerLabelWidth:100,
+                shiftPointerLabelX:-40,
+                activatePointersOnLongPress:true,
+                activatePointersDelay:-500,
+                pointerVanishDelay:3000,
+                pointerLabelComponent: items => (
+                    <View style={styles.centralize}>
+                    <Text style={{fontSize:12,fontWeight:"bold"}}>{items[0].label}</Text>  
+                    <View style={styles.pointerContainer}>
+                        <Text style={styles.pointerText}>{items[0].value} {weatherUnits[currentWeather.stat].unit}</Text>
+                    </View>
+                    </View>
+                ),
+            }}
+        />
+    </View>
+
     </View>
 
     <FlatList 
@@ -196,8 +200,8 @@ export default function Weather ()  {
     />
 
     {/* <Image source={require('../assets/sponsers/TomorrowBlack.png')} style={styles.sponser}/> */}
-  </ScrollView>
   </Card>
+  </ScrollView>
   )
 }
 

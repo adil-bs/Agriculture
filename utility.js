@@ -14,7 +14,10 @@ export function getRelativeTime(dateString) {
     const year = 365 * day;
  
     let relativeTime;
-    if (elapsed < minute) 
+    if (elapsed<0)
+      return new Date(dateString)
+      .toLocaleDateString('en-US', {month:'short',day:'numeric',hour:"numeric",minute:"numeric",hour12:"true"}); 
+    else if (elapsed < minute) 
       relativeTime =  Math.round(elapsed/1000) + ' second';
     else if (elapsed < hour) 
       relativeTime = Math.round(elapsed / minute) + ' minute';
@@ -30,12 +33,16 @@ export function getRelativeTime(dateString) {
 
     return relativeTime + (relativeTime.startsWith('1 ') ? ' ago' : 's ago') 
 }
+
+
 export function camelToCapital(camelCaseVariable) {
   return camelCaseVariable
     .split(/(?=[A-Z])|_+/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')
 }
+
+
 export const weatherCode = {
   "0"   : "Unknown",
   "1000": {

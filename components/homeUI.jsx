@@ -1,10 +1,11 @@
-import { View, ScrollView, Dimensions } from 'react-native'
+import { View, ScrollView, Dimensions, ImageBackground } from 'react-native'
 import React from 'react'
-import { Text, makeStyles } from '@rneui/themed'
+import { Image, Text, makeStyles, useTheme } from '@rneui/themed'
 
-export default function HomeUI({heading,sub,children}) {
+export default function HomeUI({heading,sub,img,children}) {
     const [widthOffset, setWidthOffset] = React.useState(0);
     const styles = useStyles()
+    const {theme} = useTheme()
 
     React.useEffect(() => {
         const {width} = Dimensions.get('window');
@@ -12,9 +13,21 @@ export default function HomeUI({heading,sub,children}) {
     }, []);
   return (
     <ScrollView>
-        <View style={[styles.bg,{right:widthOffset}]}>
-            <Text style={{color:"white"}} h3>{heading}</Text>
-            <Text style={{color:"white",marginTop:10,fontSize:17}} bold>{sub}</Text>
+        <View style={[styles.bg,{left:widthOffset}]}>
+            <View style={{flex:3}}/>
+            
+            <View style={{flex:1}}>
+                <ImageBackground 
+                    source={{uri:img}} 
+                    resizeMode="cover" 
+                    style={styles.image}
+                >
+                <View style={[styles.bgDesc,{backgroundColor:theme.colors.secondary+(img ? '90' : '')},]}>
+                    <Text style={{color:"white"}} h3>{heading}</Text>
+                    <Text style={{color:"white",marginTop:10,fontSize:17}} bold>{sub}</Text>     
+                </View>    
+                </ImageBackground>
+            </View>
         </View>  
 
         <View style={{marginTop:110}}>
@@ -26,14 +39,23 @@ export default function HomeUI({heading,sub,children}) {
 
 const useStyles = makeStyles(theme => ({
     bg:{
-        backgroundColor:theme.colors.secondary+'BF',
         height:800,
         width:800,
         borderRadius:1000,
         position:'absolute',
         top:-600,
-        paddingBottom:100,
-        justifyContent: 'flex-end', 
-        alignItems: 'center',
+        flexDirection:"column",
+        overflow:"hidden"
     },
+    bgDesc:{
+        flex:1,
+        width:'100%',
+        justifyContent:"flex-end",
+        paddingBottom:100,
+        alignItems:"center",
+    },
+    image:{
+        width: '100%',
+        flex: 1,
+    }
 }))
